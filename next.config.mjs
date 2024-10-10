@@ -5,6 +5,9 @@ const nextConfig = {
       {
         hostname: "cdn.shopify.com",
       },
+      {
+        hostname: "images.unsplash.com",
+      },
     ],
   },
 };
