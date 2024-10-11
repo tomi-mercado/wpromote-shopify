@@ -32,8 +32,8 @@ export default async function SearchPage({
           <ProductCard
             key={product.id}
             title={product.title}
-            description={product.description}
             images={product.images}
+            price={product.price}
           />
         ))}
       </div>

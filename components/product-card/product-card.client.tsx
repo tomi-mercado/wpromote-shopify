@@ -5,14 +5,14 @@ import { useState } from "react";
 function PlantAnimation({ isGrowing }: { isGrowing: boolean }) {
   return (
     <div
-      className={`absolute w-[2%] h-[35%] right-16 bottom-0 bg-slate-800/5 transition-all duration-1000 ${
+      className={`absolute w-[2%] h-[35%] right-16 bottom-0 bg-slate-800/5 transition-all duration-750 ${
         isGrowing ? "animate-grow" : "opacity-0 duration-500"
       }`}
     >
       {[1, 2, 3, 4, 5, 6].map((i) => (
         <div
           key={i}
-          className={`absolute w-[700%] h-[10%] rounded-full bg-slate-800/5 transition-all duration-1000 ${
+          className={`absolute w-[700%] h-[10%] rounded-full bg-slate-800/5 transition-all duration-750 ${
             isGrowing ? "animate-leafGrow" : ""
           } ${getLeafStyles(i)}`}
         >

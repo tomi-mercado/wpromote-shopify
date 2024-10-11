@@ -3,12 +3,12 @@ import { Button } from "../ui/button";
 import { ProductCardWrapper } from "./product-card.client";
 
 export const ProductCard = ({
-  description,
   images,
   title,
+  price,
 }: {
   title: string;
-  description: string;
+  price: number;
   images: {
     url: string;
     altText: string | null;
@@ -23,9 +23,14 @@ export const ProductCard = ({
         width={400}
         height={300}
       />
-      <div className="p-6 grid grid-cols-1 grid-rows-3 h-1/2 z-10">
-        <h3 className="text-xl font-semibold mb-2">{title}</h3>
-        <p className="text-foreground-lighter mb-4">{description}</p>
+      <div className="p-6 grid grid-cols-1 grid-rows-3 gap-4 h-1/2 z-10">
+        <h3 className="text-xl font-semibold">{title}</h3>
+        <p className="text-foreground-primary font-semibold text-xl">
+          {price.toLocaleString("en-US", {
+            style: "currency",
+            currency: "USD",
+          })}
+        </p>
         <Button className="w-full">See details</Button>
       </div>
     </ProductCardWrapper>

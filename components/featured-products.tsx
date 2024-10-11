@@ -20,6 +20,36 @@ const FeaturedProductsWrapper = ({
   );
 };
 
+const FeaturedProductsResult = async () => {
+  try {
+    const products = await getFeaturedProducts();
+
+    if (!products.success) {
+      return (
+        <ErrorScreen title="An error ocurred" description={products.error} />
+      );
+    }
+
+    return (
+      <FeaturedProductsWrapper>
+        {products.body.map((product) => {
+          return (
+            <ProductCard
+              key={product.id}
+              title={product.title}
+              images={product.images}
+              price={product.price}
+            />
+          );
+        })}
+      </FeaturedProductsWrapper>
+    );
+  } catch (e) {
+    console.error(e);
+    return <ErrorScreen title="An error ocurred" description="" />;
+  }
+};
+
 export const FeaturedProducts = () => {
   return (
     <section className="bg-background-secondary py-16">
@@ -36,41 +66,7 @@ export const FeaturedProducts = () => {
             </FeaturedProductsWrapper>
           }
         >
-          {getFeaturedProducts()
-            .then((products) => {
-              if (!products.success) {
-                return (
-                  <ErrorScreen
-                    title="An error ocurred while fetch this section"
-                    description={products.error}
-                  />
-                );
-              }
-
-              return (
-                <FeaturedProductsWrapper>
-                  {products.body.map((product) => {
-                    return (
-                      <ProductCard
-                        key={product.id}
-                        title={product.title}
-                        description={product.description}
-                        images={product.images}
-                      />
-                    );
-                  })}
-                </FeaturedProductsWrapper>
-              );
-            })
-            .catch((e) => {
-              console.error(e);
-              return (
-                <ErrorScreen
-                  title="An error ocurred while fetch this section"
-                  description=""
-                />
-              );
-            })}
+          <FeaturedProductsResult />
         </Suspense>
       </div>
     </section>

@@ -39,7 +39,6 @@ export const graphqlProductsSchema = z
         node: z.object({
           id: z.string().min(1),
           title: z.string().min(1),
-          description: z.string(),
           priceRange: z.object({
             maxVariantPrice: z.object({
               amount: z.string(),
@@ -71,8 +70,7 @@ export const graphqlProductsSchema = z
         return {
           id: edge.node.id,
           title: edge.node.title,
-          description: edge.node.description,
-          price: edge.node.priceRange.maxVariantPrice.amount,
+          price: Number(edge.node.priceRange.maxVariantPrice.amount),
           images: edge.node.media.nodes.map((node) => ({
             url: node.image.url,
             altText: node.image.altText,
