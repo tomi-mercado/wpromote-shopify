@@ -114,16 +114,25 @@ export type GetProductsResult = z.infer<typeof getProductsResultSchema>;
 export async function getProducts({
   query = "",
   pageSize = 9,
-  pageCursor,
+  endCursor,
+  startCursor,
 }: {
   query?: string;
   pageSize?: number;
-  pageCursor?: string;
+  endCursor?: string | undefined;
+  startCursor?: string | undefined;
 }) {
   return shopifyFetch({
     query: `
-      query getProducts($productsQuery: String, $pageSize: Int, $pageCursor: String) {
-        products(first: $pageSize, query: $productsQuery, after: $pageCursor) {
+      query getProducts($productsQuery: String, $pageSize: Int, ${
+        endCursor ? `$endCursor: String,` : ""
+      } ${startCursor ? `$startCursor: String` : ""}) {
+        products(
+          query: $productsQuery,
+          ${endCursor ? `after: $endCursor,` : ""}
+          ${startCursor ? `before: $startCursor` : ""}
+          ${startCursor ? `last: $pageSize` : `first: $pageSize`}
+        ) {
           ${productsFragment}
         }
       }
@@ -131,7 +140,8 @@ export async function getProducts({
     variables: {
       productsQuery: query,
       pageSize,
-      pageCursor,
+      endCursor,
+      startCursor,
     },
     resultSchema: getProductsResultSchema,
   });

@@ -1,5 +1,6 @@
 import { Footer } from "@/components/footer";
 import { Navbar } from "@/components/navbar";
+import ReactQueryProvider from "@/lib/react-query";
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
@@ -30,11 +31,13 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <div className="bg-background-primary min-h-screen flex flex-col">
-          <Navbar />
-          <main className="pt-16">{children}</main>
-          <Footer />
-        </div>
+        <ReactQueryProvider>
+          <div className="bg-background-primary min-h-screen flex flex-col">
+            <Navbar />
+            <main className="pt-16">{children}</main>
+            <Footer />
+          </div>
+        </ReactQueryProvider>
       </body>
     </html>
   );

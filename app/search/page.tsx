@@ -1,19 +1,10 @@
-import { ProductsResult } from "@/components/search-results";
-import { getProducts } from "@/services/shopify/queries/getProducts";
+import { SearchResults } from "@/components/search-results";
 
 export default async function SearchPage({
   searchParams,
 }: {
   searchParams: Record<string, string>;
 }) {
-  const productsResponse = await getProducts({
-    query: searchParams.q,
-  });
-
-  if (!productsResponse.success) {
-    return <div>There was an error fetching the products</div>;
-  }
-
   const title = searchParams.q
     ? `Search results for "${searchParams.q}"`
     : "Showing all products";
@@ -23,7 +14,7 @@ export default async function SearchPage({
       <h1 className="text-2xl font-semibold text-foreground-primary">
         {title}
       </h1>
-      <ProductsResult initialProductsResult={productsResponse.body} />
+      <SearchResults />
     </div>
   );
 }

@@ -1,75 +1,101 @@
 "use client";
 
-import { GetProductsResult } from "@/services/shopify/queries/getProducts";
-import { useEffect, useRef, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import Link from "next/link";
+import { useSearchParams } from "next/navigation";
+import { ErrorScreen } from "../error-screen";
 import { ProductCard } from "../product-card";
+import { Button } from "../ui/button";
 import { serverGetProducts } from "./actions";
 
-export const ProductsResult = ({
-  initialProductsResult,
-}: {
-  initialProductsResult: GetProductsResult;
-}) => {
-  const lastProductRowRenderedRef = useRef<HTMLSpanElement>(null);
-  const [products, setProducts] = useState<GetProductsResult["products"]>(
-    initialProductsResult.products
-  );
-  const [productsPagination, setProductsPagination] = useState(
-    initialProductsResult.pagination
-  );
+export const SearchResults = () => {
+  const searchParams = useSearchParams();
 
-  // Intersection observer to get more products when the user reaches the bottom of the list
-  useEffect(() => {
-    if (!lastProductRowRenderedRef.current || !productsPagination.hasNextPage) {
-      return;
-    }
+  const filters = {
+    query: searchParams.get("q") ?? "",
+    endCursor: searchParams.get("endCursor") ?? undefined,
+    startCursor: searchParams.get("startCursor") ?? undefined,
+    pageSize: 9,
+  };
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const shouldExecute =
-          entries[0].isIntersecting && productsPagination.hasNextPage;
-
-        if (!shouldExecute) {
-          return;
+  const {
+    data: productsResult,
+    error,
+    isLoading,
+  } = useQuery({
+    queryKey: ["products", filters],
+    queryFn: () =>
+      serverGetProducts(filters).then((res) => {
+        if (!res.success) {
+          throw new Error(res.error);
         }
 
-        serverGetProducts({
-          pageCursor: productsPagination.endCursor,
-        }).then((newProductsResponse) => {
-          if (!newProductsResponse.success) {
-            // TODO: Handle error
-            return;
-          }
+        return res.body;
+      }),
+  });
 
-          setProductsPagination(newProductsResponse.body.pagination);
-          setProducts((prev) => [
-            ...prev,
-            ...newProductsResponse.body.products,
-          ]);
-        });
-      },
-      { threshold: 1 }
+  if (isLoading) {
+    // TODO: SKELETON
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return (
+      <ErrorScreen title="Something went wrong" description={error.message} />
     );
+  }
 
-    observer.observe(lastProductRowRenderedRef.current);
-
-    return () => {
-      observer.disconnect();
-    };
-  }, [productsPagination.endCursor, productsPagination.hasNextPage]);
+  const products = productsResult?.products ?? [];
+  const pagination = productsResult?.pagination;
 
   return (
-    <div className="grid grid-cols-3 gap-6">
-      {products.map((product) => (
-        <ProductCard
-          key={product.id}
-          title={product.title}
-          images={product.images}
-          price={product.price}
-          slug={product.slug}
-        />
-      ))}
-      <span ref={lastProductRowRenderedRef} />
+    <div className="flex flex-col gap-6">
+      <div className="grid grid-cols-3 gap-6">
+        {products.map((product) => (
+          <ProductCard
+            key={product.id}
+            title={product.title}
+            images={product.images}
+            price={product.price}
+            slug={product.slug}
+          />
+        ))}
+      </div>
+
+      {pagination && (
+        <div className="flex justify-between">
+          {pagination.hasPreviousPage ? (
+            <Button variant="link" asChild className="text-lg">
+              <Link
+                href={{
+                  query: {
+                    startCursor: pagination.startCursor,
+                    q: filters.query,
+                  },
+                }}
+              >
+                <ChevronLeft className="mr-1" />
+                Previous
+              </Link>
+            </Button>
+          ) : (
+            <span />
+          )}
+          {pagination.hasNextPage && (
+            <Button variant="link" asChild className="text-lg">
+              <Link
+                href={{
+                  query: { endCursor: pagination.endCursor, q: filters.query },
+                }}
+              >
+                Next
+                <ChevronRight className="ml-1" />
+              </Link>
+            </Button>
+          )}
+        </div>
+      )}
     </div>
   );
 };
