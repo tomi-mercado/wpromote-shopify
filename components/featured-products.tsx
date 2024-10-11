@@ -1,12 +1,7 @@
 import { getFeaturedProducts } from "@/services/shopify/queries/getFeaturedProducts";
 import { Suspense } from "react";
 import { ErrorScreen } from "./error-screen";
-import { ProductCard } from "./product-card";
-import { Skeleton } from "./ui/skeleton";
-
-const FeaturedProductCardSkeleton = () => {
-  return <Skeleton className="w-full h-[432px]" />;
-};
+import { ProductCard, ProductCardSkeleton } from "./product-card";
 
 const FeaturedProductsWrapper = ({
   children,
@@ -62,7 +57,7 @@ export const FeaturedProducts = () => {
           fallback={
             <FeaturedProductsWrapper>
               {Array.from({ length: 4 }).map((_, key) => (
-                <FeaturedProductCardSkeleton key={key} />
+                <ProductCardSkeleton key={key} />
               ))}
             </FeaturedProductsWrapper>
           }

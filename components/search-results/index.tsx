@@ -5,7 +5,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { ErrorScreen } from "../error-screen";
-import { ProductCard } from "../product-card";
+import { ProductCard, ProductCardSkeleton } from "../product-card";
 import { Button } from "../ui/button";
 import { serverGetProducts } from "./actions";
 
@@ -35,11 +35,6 @@ export const SearchResults = () => {
       }),
   });
 
-  if (isLoading) {
-    // TODO: SKELETON
-    return <div>Loading...</div>;
-  }
-
   if (error) {
     return (
       <ErrorScreen title="Something went wrong" description={error.message} />
@@ -52,15 +47,25 @@ export const SearchResults = () => {
   return (
     <div className="flex flex-col gap-6">
       <div className="grid grid-cols-3 gap-6">
-        {products.map((product) => (
-          <ProductCard
-            key={product.id}
-            title={product.title}
-            images={product.images}
-            price={product.price}
-            slug={product.slug}
-          />
-        ))}
+        {isLoading ? (
+          <>
+            {Array.from({ length: 6 }).map((_, i) => (
+              <ProductCardSkeleton className="bg-slate-200" key={i} />
+            ))}
+          </>
+        ) : (
+          <>
+            {products.map((product) => (
+              <ProductCard
+                key={product.id}
+                title={product.title}
+                images={product.images}
+                price={product.price}
+                slug={product.slug}
+              />
+            ))}
+          </>
+        )}
       </div>
 
       {pagination && (

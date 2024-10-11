@@ -1,6 +1,8 @@
+import { cn } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "../ui/button";
+import { Skeleton } from "../ui/skeleton";
 import { ProductCardWrapper } from "./product-card.client";
 
 export const ProductCard = ({
@@ -40,4 +42,8 @@ export const ProductCard = ({
       </div>
     </ProductCardWrapper>
   );
+};
+
+export const ProductCardSkeleton = ({ className }: { className?: string }) => {
+  return <Skeleton className={cn("w-full h-[432px]", className)} />;
 };
