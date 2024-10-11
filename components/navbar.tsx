@@ -1,5 +1,6 @@
 import { Leaf } from "lucide-react";
 import Link from "next/link";
+import { Suspense } from "react";
 import { SearchButton } from "./search-button";
 
 export const Navbar = () => {
@@ -11,7 +12,9 @@ export const Navbar = () => {
           <span className="text-xl font-bold">Tom Mercado de Plantas</span>
         </Link>
 
-        <SearchButton />
+        <Suspense>
+          <SearchButton />
+        </Suspense>
       </div>
     </header>
   );
