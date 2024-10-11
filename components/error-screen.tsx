@@ -19,7 +19,7 @@ export const ErrorScreen = ({
       </div>
 
       {(title || description) && (
-        <div className="text-center text-foreground-secondary">
+        <div className="text-center text-foreground-primary">
           {title && <p className="text-2xl font-semibold">{title}</p>}
           {description && <p className="text-lg">{description}</p>}
         </div>

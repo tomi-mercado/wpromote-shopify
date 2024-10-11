@@ -99,7 +99,7 @@ export const graphqlProductsSchema = z
 
 export async function getProducts({
   query = "",
-  pageSize = 6,
+  pageSize = 9,
   pageCursor,
 }: {
   query?: string;

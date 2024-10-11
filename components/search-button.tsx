@@ -3,11 +3,12 @@
 import { Input } from "@/components/ui/input";
 import { AnimatePresence, motion } from "framer-motion";
 import { Search, SendHorizonal } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
 export function SearchButton() {
   const router = useRouter();
+  const searchParams = useSearchParams();
 
   const [isExpanded, setIsExpanded] = useState(false);
 
@@ -51,6 +52,7 @@ export function SearchButton() {
                 autoFocus
                 aria-label="Search"
                 name="q"
+                defaultValue={searchParams.get("q") ?? ""}
               />
               <button
                 className="size-9 text-button-primary-foreground bg-primary hover:bg-button-primary-hover active:bg-button-primary-active absolute right-0 top-0 h-full flex rounded-full items-center justify-center rounded-l-none"
