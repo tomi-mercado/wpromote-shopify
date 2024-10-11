@@ -1,5 +1,6 @@
-import { Leaf, Search } from "lucide-react";
+import { Leaf } from "lucide-react";
 import Link from "next/link";
+import { SearchButton } from "./search-button";
 
 export const Navbar = () => {
   return (
@@ -10,9 +11,7 @@ export const Navbar = () => {
           <span className="text-xl font-bold">Tom Mercado de Plantas</span>
         </Link>
 
-        <button className="rounded-full bg-background-primary p-2 text-foreground-primary">
-          <Search className="size-5 transition-colors" />
-        </button>
+        <SearchButton />
       </div>
     </header>
   );
