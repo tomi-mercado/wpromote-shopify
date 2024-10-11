@@ -12,12 +12,12 @@ export const Footer = () => {
             <ul className="space-y-2">
               <li>
                 <Button asChild variant="link">
-                  <Link href="#">Home</Link>
+                  <Link href="/">Home</Link>
                 </Button>
               </li>
               <li>
                 <Button asChild variant="link">
-                  <Link href="#">Shop</Link>
+                  <Link href="/search">Shop</Link>
                 </Button>
               </li>
             </ul>

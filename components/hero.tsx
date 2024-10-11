@@ -1,5 +1,6 @@
 import { ArrowRight } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import { Button } from "./ui/button";
 
 export const Hero = () => {
@@ -22,9 +23,11 @@ export const Hero = () => {
         <p className="text-xl md:text-2xl mb-8">
           Discover the beauty of nature, right at your doorstep.
         </p>
-        <Button size="xl">
-          Explore Our Collection
-          <ArrowRight className="ml-2 h-5 w-5" />
+        <Button size="xl" asChild>
+          <Link href="/search">
+            Explore Our Collection
+            <ArrowRight className="ml-2 h-5 w-5" />
+          </Link>
         </Button>
       </div>
     </section>
