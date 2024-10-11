@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { Button } from "../ui/button";
 import { ProductCardWrapper } from "./product-card.client";
 
@@ -6,6 +7,7 @@ export const ProductCard = ({
   images,
   title,
   price,
+  slug,
 }: {
   title: string;
   price: number;
@@ -13,6 +15,7 @@ export const ProductCard = ({
     url: string;
     altText: string | null;
   }[];
+  slug: string;
 }) => {
   return (
     <ProductCardWrapper>
@@ -31,7 +34,9 @@ export const ProductCard = ({
             currency: "USD",
           })}
         </p>
-        <Button className="w-full">See details</Button>
+        <Button className="w-full" asChild>
+          <Link href={`/product/${slug}`}>See details</Link>
+        </Button>
       </div>
     </ProductCardWrapper>
   );

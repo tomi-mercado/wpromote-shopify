@@ -1,0 +1,45 @@
+import { z } from "zod";
+import { shopifyFetch } from "..";
+import { graphqlProductNodeSchema } from "./getProducts";
+
+export async function getProductBySlug(slug: string) {
+  return shopifyFetch({
+    query: `
+      query getProductBySlug($handle: String) {
+        product(handle: $handle) {
+          id
+          title
+          handle
+          description
+          priceRange {
+            maxVariantPrice {
+              amount
+            }
+          }
+          media(first: 100) {
+            nodes {
+              ... on MediaImage {
+                image {
+                  url
+                  altText
+                }
+              }
+            }
+          }
+        }
+      }
+    `,
+    variables: {
+      handle: slug,
+    },
+    resultSchema: z
+      .object({
+        data: z.object({
+          product: graphqlProductNodeSchema,
+        }),
+      })
+      .transform(({ data }) => {
+        return data.product;
+      }),
+  });
+}

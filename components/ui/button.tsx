@@ -12,6 +12,7 @@ const buttonVariants = cva(
         primary:
           "text-button-primary-foreground bg-button-primary-background hover:bg-button-primary-hover active:bg-button-primary-active",
         link: "hover:text-primary",
+        ghost: "text-button-secondary-foreground bg-transparent",
       },
       size: {
         default: "h-9 px-4 py-2",

@@ -34,6 +34,7 @@ export default async function SearchPage({
             title={product.title}
             images={product.images}
             price={product.price}
+            slug={product.slug}
           />
         ))}
       </div>

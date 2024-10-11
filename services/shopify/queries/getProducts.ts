@@ -7,6 +7,7 @@ export const productsFragment = `
     node {
       id
       title
+      handle
       description
       priceRange {
         maxVariantPrice {
@@ -31,30 +32,48 @@ export const productsFragment = `
   } 
 `;
 
+export const graphqlProductNodeSchema = z
+  .object({
+    id: z.string().min(1),
+    title: z.string().min(1),
+    handle: z.string().min(1),
+    description: z.string(),
+    priceRange: z.object({
+      maxVariantPrice: z.object({
+        amount: z.string(),
+      }),
+    }),
+    media: z.object({
+      nodes: z.array(
+        z.object({
+          image: z.object({
+            url: z.string(),
+            altText: z.string().nullable(),
+          }),
+        })
+      ),
+    }),
+  })
+  .transform((node) => {
+    return {
+      id: node.id,
+      title: node.title,
+      price: Number(node.priceRange.maxVariantPrice.amount),
+      description: node.description,
+      slug: node.handle,
+      images: node.media.nodes.map((mediaNode) => ({
+        url: mediaNode.image.url,
+        altText: mediaNode.image.altText,
+      })),
+    };
+  });
+
 export const graphqlProductsSchema = z
   .object({
     edges: z.array(
       z.object({
         cursor: z.string(),
-        node: z.object({
-          id: z.string().min(1),
-          title: z.string().min(1),
-          priceRange: z.object({
-            maxVariantPrice: z.object({
-              amount: z.string(),
-            }),
-          }),
-          media: z.object({
-            nodes: z.array(
-              z.object({
-                image: z.object({
-                  url: z.string(),
-                  altText: z.string().nullable(),
-                }),
-              })
-            ),
-          }),
-        }),
+        node: graphqlProductNodeSchema,
       })
     ),
     pageInfo: z.object({
@@ -67,15 +86,7 @@ export const graphqlProductsSchema = z
   .transform(({ edges, pageInfo }) => {
     return {
       products: edges.map((edge) => {
-        return {
-          id: edge.node.id,
-          title: edge.node.title,
-          price: Number(edge.node.priceRange.maxVariantPrice.amount),
-          images: edge.node.media.nodes.map((node) => ({
-            url: node.image.url,
-            altText: node.image.altText,
-          })),
-        };
+        return edge.node;
       }),
       pagination: {
         hasNextPage: pageInfo.hasNextPage,

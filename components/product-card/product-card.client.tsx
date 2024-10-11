@@ -52,7 +52,7 @@ export const ProductCardWrapper = ({
   return (
     <div
       className={
-        "bg-background-primary rounded-lg overflow-hidden shadow-lg duration-300 hover:shadow-xl flex flex-col relative hover:transform hover:scale-105 transition-transform"
+        "bg-white rounded-lg overflow-hidden shadow-lg duration-300 hover:shadow-xl flex flex-col relative hover:transform hover:scale-105 transition-transform"
       }
       onMouseEnter={() => {
         setIsGrowing(true);

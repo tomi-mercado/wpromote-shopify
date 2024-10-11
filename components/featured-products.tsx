@@ -39,6 +39,7 @@ const FeaturedProductsResult = async () => {
               title={product.title}
               images={product.images}
               price={product.price}
+              slug={product.slug}
             />
           );
         })}
