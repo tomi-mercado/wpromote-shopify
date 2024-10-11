@@ -14,7 +14,7 @@ export default async function SearchPage({
     : "Showing all products";
 
   return (
-    <div className="flex flex-col gap-6 py-10 container mx-auto">
+    <div className="flex flex-col gap-6 py-10 container mx-auto px-4">
       <h1 className="text-2xl font-semibold text-foreground-primary">
         {title}
       </h1>
