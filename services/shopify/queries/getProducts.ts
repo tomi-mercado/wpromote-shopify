@@ -29,6 +29,8 @@ export const productsFragment = `
   pageInfo {
     hasNextPage
     hasPreviousPage
+    endCursor
+    startCursor
   } 
 `;
 
@@ -97,6 +99,18 @@ export const graphqlProductsSchema = z
     };
   });
 
+const getProductsResultSchema = z
+  .object({
+    data: z.object({
+      products: graphqlProductsSchema,
+    }),
+  })
+  .transform(({ data }) => {
+    return data.products;
+  });
+
+export type GetProductsResult = z.infer<typeof getProductsResultSchema>;
+
 export async function getProducts({
   query = "",
   pageSize = 9,
@@ -119,14 +133,6 @@ export async function getProducts({
       pageSize,
       pageCursor,
     },
-    resultSchema: z
-      .object({
-        data: z.object({
-          products: graphqlProductsSchema,
-        }),
-      })
-      .transform(({ data }) => {
-        return data.products;
-      }),
+    resultSchema: getProductsResultSchema,
   });
 }

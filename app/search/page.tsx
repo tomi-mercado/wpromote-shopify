@@ -1,5 +1,4 @@
-import { ErrorScreen } from "@/components/error-screen";
-import { ProductCard } from "@/components/product-card";
+import { ProductsResult } from "@/components/search-results";
 import { getProducts } from "@/services/shopify/queries/getProducts";
 
 export default async function SearchPage({
@@ -15,10 +14,6 @@ export default async function SearchPage({
     return <div>There was an error fetching the products</div>;
   }
 
-  const {
-    body: { products },
-  } = productsResponse;
-
   const title = searchParams.q
     ? `Search results for "${searchParams.q}"`
     : "Showing all products";
@@ -28,23 +23,7 @@ export default async function SearchPage({
       <h1 className="text-2xl font-semibold text-foreground-primary">
         {title}
       </h1>
-      {products.length === 0 && (
-        <ErrorScreen
-          title="No results found"
-          description="Try updating your search"
-        />
-      )}
-      <div className="grid grid-cols-3 gap-6">
-        {products.map((product) => (
-          <ProductCard
-            key={product.id}
-            title={product.title}
-            images={product.images}
-            price={product.price}
-            slug={product.slug}
-          />
-        ))}
-      </div>
+      <ProductsResult initialProductsResult={productsResponse.body} />
     </div>
   );
 }
