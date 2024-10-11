@@ -46,6 +46,11 @@ body {
   * {
     @apply border-border;
   }
+
+  html {
+    height: 100%;
+  }
+
   body {
     @apply bg-background-primary text-foreground-primary;
   }
