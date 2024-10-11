@@ -1,4 +1,8 @@
-import { SearchResults } from "@/components/search-results";
+import {
+  SearchResults,
+  SearchResultsLoading,
+} from "@/components/search-results";
+import { Suspense } from "react";
 
 export default async function SearchPage({
   searchParams,
@@ -14,7 +18,9 @@ export default async function SearchPage({
       <h1 className="text-2xl font-semibold text-foreground-primary">
         {title}
       </h1>
-      <SearchResults />
+      <Suspense fallback={<SearchResultsLoading />}>
+        <SearchResults />
+      </Suspense>
     </div>
   );
 }

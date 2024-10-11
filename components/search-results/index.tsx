@@ -4,10 +4,25 @@ import { useQuery } from "@tanstack/react-query";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
+import { ReactNode } from "react";
 import { ErrorScreen } from "../error-screen";
 import { ProductCard, ProductCardSkeleton } from "../product-card";
 import { Button } from "../ui/button";
 import { serverGetProducts } from "./actions";
+
+const SearchResultsWrapper = ({ children }: { children: ReactNode }) => {
+  return <div className="grid grid-cols-3 gap-6">{children}</div>;
+};
+
+export const SearchResultsLoading = () => {
+  return (
+    <SearchResultsWrapper>
+      {Array.from({ length: 6 }).map((_, i) => (
+        <ProductCardSkeleton className="bg-slate-200" key={i} />
+      ))}
+    </SearchResultsWrapper>
+  );
+};
 
 export const SearchResults = () => {
   const searchParams = useSearchParams();
@@ -35,6 +50,10 @@ export const SearchResults = () => {
       }),
   });
 
+  if (isLoading) {
+    return <SearchResultsLoading />;
+  }
+
   if (error) {
     return (
       <ErrorScreen title="Something went wrong" description={error.message} />
@@ -47,25 +66,15 @@ export const SearchResults = () => {
   return (
     <div className="flex flex-col gap-6">
       <div className="grid grid-cols-3 gap-6">
-        {isLoading ? (
-          <>
-            {Array.from({ length: 6 }).map((_, i) => (
-              <ProductCardSkeleton className="bg-slate-200" key={i} />
-            ))}
-          </>
-        ) : (
-          <>
-            {products.map((product) => (
-              <ProductCard
-                key={product.id}
-                title={product.title}
-                images={product.images}
-                price={product.price}
-                slug={product.slug}
-              />
-            ))}
-          </>
-        )}
+        {products.map((product) => (
+          <ProductCard
+            key={product.id}
+            title={product.title}
+            images={product.images}
+            price={product.price}
+            slug={product.slug}
+          />
+        ))}
       </div>
 
       {pagination && (
