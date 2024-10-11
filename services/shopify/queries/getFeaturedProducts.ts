@@ -32,7 +32,7 @@ export async function getFeaturedProducts() {
         }),
       })
       .transform(({ data }) => {
-        return data.collections.edges[0].node.products;
+        return data.collections.edges[0].node.products.products;
       }),
   });
 }

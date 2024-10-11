@@ -28,7 +28,7 @@ export async function shopifyFetch<Schema extends z.ZodSchema>({
   resultSchema,
 }: {
   query: string;
-  variables?: string;
+  variables?: Record<string, string | number | undefined>;
   resultSchema: Schema;
 }): Promise<ShopifyFetchSuccess<Schema> | ShopifyFetchError> {
   let result: Response;
