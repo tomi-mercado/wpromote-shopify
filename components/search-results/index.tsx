@@ -11,7 +11,11 @@ import { Button } from "../ui/button";
 import { serverGetProducts } from "./actions";
 
 const SearchResultsWrapper = ({ children }: { children: ReactNode }) => {
-  return <div className="grid grid-cols-3 gap-6">{children}</div>;
+  return (
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+      {children}
+    </div>
+  );
 };
 
 export const SearchResultsLoading = () => {
@@ -65,7 +69,7 @@ export const SearchResults = () => {
 
   return (
     <div className="flex flex-col gap-6">
-      <div className="grid grid-cols-3 gap-6">
+      <SearchResultsWrapper>
         {products.map((product) => (
           <ProductCard
             key={product.id}
@@ -75,7 +79,7 @@ export const SearchResults = () => {
             slug={product.slug}
           />
         ))}
-      </div>
+      </SearchResultsWrapper>
 
       {pagination && (
         <div className="flex justify-between">
