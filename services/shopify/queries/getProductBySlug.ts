@@ -1,8 +1,9 @@
+import { cache } from "react";
 import { z } from "zod";
 import { shopifyFetch } from "..";
 import { graphqlProductNodeSchema } from "./getProducts";
 
-export async function getProductBySlug(slug: string) {
+export const getProductBySlug = cache(async (slug: string) => {
   return shopifyFetch({
     query: `
       query getProductBySlug($handle: String) {
@@ -42,4 +43,4 @@ export async function getProductBySlug(slug: string) {
         return data.product;
       }),
   });
-}
+});

@@ -9,6 +9,26 @@ import { getProductBySlug } from "@/services/shopify/queries/getProductBySlug";
 import { ArrowLeft, Minus, Plus } from "lucide-react";
 import Link from "next/link";
 
+export const generateMetadata = async ({
+  params,
+}: {
+  params: { slug: string };
+}) => {
+  const product = await getProductBySlug(params.slug);
+
+  if (!product.success) {
+    return {
+      title: "Product not found",
+      description: "The product you are looking for does not exist",
+    };
+  }
+
+  return {
+    title: `${product.body.title}`,
+    description: product.body.description,
+  };
+};
+
 export default async function ProductDetailPage({
   params,
 }: {
@@ -49,19 +69,11 @@ export default async function ProductDetailPage({
               <p className="text-foreground-lighter">{description}</p>
               <div className="flex items-center space-x-4">
                 <div className="flex items-center border border-card-border rounded-md">
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    // onClick={decrementQuantity}
-                  >
+                  <Button variant="ghost" size="icon">
                     <Minus className="h-4 w-4" />
                   </Button>
                   <span className="px-4 py-2">{1}</span>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    // onClick={incrementQuantity}
-                  >
+                  <Button variant="ghost" size="icon">
                     <Plus className="h-4 w-4" />
                   </Button>
                 </div>
