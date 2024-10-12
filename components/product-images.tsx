@@ -46,9 +46,9 @@ export const SelectedImage = () => {
   const selectedImage = images[selectedIndex];
   return (
     <Image
-      src={selectedImage.url}
-      alt={selectedImage.altText || "Product image"}
-      className="w-full h-auto rounded-lg shadow-lg"
+      src={selectedImage?.url || "/placeholder-image.webp"}
+      alt={selectedImage?.altText || "Product image"}
+      className="w-full h-[450px] object-contain rounded-lg shadow-lg bg-white"
       width={600}
       height={600}
     />
@@ -65,7 +65,7 @@ export const ImagesThumbnails = () => {
           src={image.url}
           alt={image.altText || "Product image"}
           className={cn(
-            "w-full h-auto rounded-lg shadow-lg cursor-pointer",
+            "w-full h-auto rounded-lg shadow-lg cursor-pointer size-36 object-cover",
             selectedIndex === index && "border-2 border-primary"
           )}
           width={150}

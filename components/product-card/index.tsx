@@ -19,11 +19,13 @@ export const ProductCard = ({
   }[];
   slug: string;
 }) => {
+  const firstImage = images[0];
+
   return (
     <ProductCardWrapper>
       <Image
-        src={images[0].url}
-        alt={images[0].altText || "Product image"}
+        src={firstImage?.url || "/placeholder-image.webp"}
+        alt={firstImage?.altText || "Product image"}
         className="w-full h-1/2 object-cover"
         width={400}
         height={300}
