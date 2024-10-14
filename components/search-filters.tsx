@@ -28,36 +28,41 @@ export const SearchFilters = () => {
 
   return (
     <div className="flex gap-4 items-center">
-      <p>Sort by</p>
-      <Select
-        value={sort}
-        onValueChange={(value) => {
-          setSort(value);
-        }}
-      >
-        <SelectTrigger className="w-[180px]">
-          <SelectValue placeholder="Sort by" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectItem value="price">Price</SelectItem>
-          <SelectItem value="title">Title</SelectItem>
-        </SelectContent>
-      </Select>
-      <p>Order</p>
-      <Select
-        value={order}
-        onValueChange={(value) => {
-          setOrder(value);
-        }}
-      >
-        <SelectTrigger className="w-[180px]">
-          <SelectValue placeholder="Order by" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectItem value="asc">Ascending</SelectItem>
-          <SelectItem value="desc">Descending</SelectItem>
-        </SelectContent>
-      </Select>
+      <div className="flex flex-col gap-2">
+        <p>Sort by</p>
+        <Select
+          value={sort}
+          onValueChange={(value) => {
+            setSort(value);
+          }}
+        >
+          <SelectTrigger className="">
+            <SelectValue placeholder="Sort by" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="price">Price</SelectItem>
+            <SelectItem value="title">Title</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
+
+      <div className="flex flex-col gap-2">
+        <p>Order</p>
+        <Select
+          value={order}
+          onValueChange={(value) => {
+            setOrder(value);
+          }}
+        >
+          <SelectTrigger className="">
+            <SelectValue placeholder="Order by" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="asc">Ascending</SelectItem>
+            <SelectItem value="desc">Descending</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
     </div>
   );
 };
