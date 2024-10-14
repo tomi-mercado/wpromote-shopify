@@ -7,6 +7,7 @@ import { useSearchParams } from "next/navigation";
 import { ReactNode } from "react";
 import { ErrorScreen } from "../error-screen";
 import { ProductCard, ProductCardSkeleton } from "../product-card";
+import { SearchFilters, validateOrder, validateSort } from "../search-filters";
 import { Button } from "../ui/button";
 import { serverGetProducts } from "./actions";
 
@@ -36,6 +37,8 @@ export const SearchResults = () => {
     endCursor: searchParams.get("endCursor") ?? undefined,
     startCursor: searchParams.get("startCursor") ?? undefined,
     pageSize: 9,
+    sortBy: validateSort(searchParams.get("sort")),
+    order: validateOrder(searchParams.get("order")),
   };
 
   const {
@@ -69,6 +72,10 @@ export const SearchResults = () => {
 
   return (
     <div className="flex flex-col gap-6">
+      <div className="flex w-full justify-end">
+        <SearchFilters />
+      </div>
+
       <SearchResultsWrapper>
         {products.map((product) => (
           <ProductCard
