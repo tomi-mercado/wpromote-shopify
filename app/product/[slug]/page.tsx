@@ -18,8 +18,15 @@ export const generateMetadata = async ({
 
   if (!product.success) {
     return {
+      title: "Something went wrong",
+      description: product.error,
+    };
+  }
+
+  if (!product.body) {
+    return {
       title: "Product not found",
-      description: "The product you are looking for does not exist",
+      description: "The product you're looking for doesn't exist",
     };
   }
 
@@ -42,6 +49,15 @@ export default async function ProductDetailPage({
     if (!result.success) {
       return (
         <ErrorScreen title="Something went wrong" description={result.error} />
+      );
+    }
+
+    if (!result.body) {
+      return (
+        <ErrorScreen
+          title="Product not found"
+          description="The product you're looking for doesn't exist"
+        />
       );
     }
 

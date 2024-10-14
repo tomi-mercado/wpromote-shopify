@@ -36,7 +36,7 @@ export const getProductBySlug = cache(async (slug: string) => {
     resultSchema: z
       .object({
         data: z.object({
-          product: graphqlProductNodeSchema,
+          product: graphqlProductNodeSchema.nullable(),
         }),
       })
       .transform(({ data }) => {
