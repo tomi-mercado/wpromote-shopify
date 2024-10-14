@@ -97,6 +97,8 @@ export const SearchResults = () => {
                   query: {
                     startCursor: pagination.startCursor,
                     q: filters.query,
+                    sort: filters.sortBy,
+                    order: filters.order,
                   },
                 }}
               >
@@ -111,7 +113,12 @@ export const SearchResults = () => {
             <Button variant="link" asChild className="text-lg">
               <Link
                 href={{
-                  query: { endCursor: pagination.endCursor, q: filters.query },
+                  query: {
+                    endCursor: pagination.endCursor,
+                    q: filters.query,
+                    sort: filters.sortBy,
+                    order: filters.order,
+                  },
                 }}
               >
                 Next
