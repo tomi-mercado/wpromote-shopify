@@ -3,6 +3,8 @@ import Link from "next/link";
 import { Button } from "./ui/button";
 
 export const Footer = () => {
+  const currentYear = new Date().getFullYear();
+
   return (
     <footer className="bg-background-secondary text-foreground-secondary py-12 mt-auto">
       <div className="container mx-auto px-4">
@@ -41,7 +43,9 @@ export const Footer = () => {
           </div>
         </div>
         <div className="mt-12 text-center">
-          <p>&copy; 2023 Tom Mercado de Plantas. All rights reserved.</p>
+          <p>
+            &copy; {currentYear} Tom Mercado de Plantas. All rights reserved.
+          </p>
         </div>
       </div>
     </footer>
