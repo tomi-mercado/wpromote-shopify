@@ -116,11 +116,15 @@ export async function getProducts({
   pageSize = 9,
   endCursor,
   startCursor,
+  sortBy = "title",
+  order = "asc",
 }: {
   query?: string;
   pageSize?: number;
   endCursor?: string | undefined;
   startCursor?: string | undefined;
+  sortBy?: "title" | "price";
+  order?: "asc" | "desc";
 }) {
   return shopifyFetch({
     query: `
@@ -130,8 +134,10 @@ export async function getProducts({
         products(
           query: $productsQuery,
           ${endCursor ? `after: $endCursor,` : ""}
-          ${startCursor ? `before: $startCursor` : ""}
-          ${startCursor ? `last: $pageSize` : `first: $pageSize`}
+          ${startCursor ? `before: $startCursor,` : ""}
+          ${startCursor ? `last: $pageSize,` : `first: $pageSize,`}
+          sortKey: ${sortBy.toUpperCase()},
+          reverse: ${order === "desc"}
         ) {
           ${productsFragment}
         }
